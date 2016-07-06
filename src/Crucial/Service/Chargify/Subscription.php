@@ -654,7 +654,29 @@ class Subscription extends AbstractEntity
 
         return $this;
     }
+    
+    /**
+     * List subscriptions by customer ID
+     *
+     * @param int $subscriptionId
+     *
+     * @return Subscription     
+     */    
+    public function retry($subscriptionId)
+    {
+        $service       = $this->getService();        
+        $response      = $service->request('subscriptions/' . (int) $subscriptionId . '/retry', 'PUT');
+        $responseArray = $this->getResponseArray($response);
 
+        if (!$this->isError()) {
+            $this->_data = $responseArray['subscription'];
+        } else {
+            $this->_data = array();
+        }
+
+        return $this;
+    }
+    
     /**
      * This normalizes the array for us so we can rely on a consistent structure.
      *
