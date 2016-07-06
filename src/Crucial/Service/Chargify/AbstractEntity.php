@@ -61,6 +61,18 @@ abstract class AbstractEntity implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
+     * Directly set the data container on this object.
+     * 
+     * @param array $array
+     */
+    public function setData($array)
+    {
+       $this->_data = $array; 
+       
+       return $this;
+    }
+    
+    /**
      * Get Chargify instance sent in constructor
      *
      * @return Chargify

@@ -665,7 +665,8 @@ class Subscription extends AbstractEntity
     public function retry($subscriptionId)
     {
         $service       = $this->getService();        
-        $response      = $service->request('subscriptions/' . (int) $subscriptionId . '/retry', 'PUT');
+        $rawData       = $this->getRawData(array('subscription' => $this->_params));
+        $response      = $service->request('subscriptions/' . (int) $subscriptionId . '/retry', 'PUT', $rawData);
         $responseArray = $this->getResponseArray($response);
 
         if (!$this->isError()) {
