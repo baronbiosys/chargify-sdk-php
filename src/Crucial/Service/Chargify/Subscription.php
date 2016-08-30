@@ -338,6 +338,22 @@ class Subscription extends AbstractEntity
     }
 
     /**
+     * Enter description here...
+     *
+     * @param string $coupon_code
+     *
+     * @return Subscription
+     * @link http://docs.chargify.com/api-coupons
+     * @todo Unit test this
+     */
+    public function setCode($code)
+    {
+        $this->setParam('code', $code);
+
+        return $this;
+    }
+    
+    /**
      * An integer value which specifies which page of results to fetch, starting
      * at 1. Fetching successively higher page numbers will return additional
      * results, until there are no more results to return (in which case an empty
@@ -366,6 +382,23 @@ class Subscription extends AbstractEntity
     public function setPerPage($perPage)
     {
         $this->setParam('per_page', $perPage);
+
+        return $this;
+    }
+
+    public function addCoupon($subscriptionId) 
+    {
+        $service       = $this->getService();
+        $rawData       = $this->getRawData($this->_params);
+        $response      = $service->request('subscriptions/' . (int) $subscriptionId . '/add_coupon', 'POST', $rawData);
+        
+        $responseArray = $this->getResponseArray($response);
+
+        if (!$this->isError()) {
+            $this->_data = $responseArray['subscription'];
+        } else {
+            $this->_data = array();
+        }
 
         return $this;
     }
